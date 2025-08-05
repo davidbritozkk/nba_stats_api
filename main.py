@@ -2,13 +2,16 @@ from nba_api.stats.static import players
 from nba_api.stats.endpoints import playerdashboardbyshootingsplits
 
 player_input = input("Type the player's name: ")
-
-player_found = players.find_players_by_full_name(player_input)[0]
-player_found_id = player_found['id']
+try:
+    player_found = players.find_players_by_full_name(player_input)[0]
+    player_found_id = player_found['id']
+except IndexError:
+    print("Player not found.")
+    exit()
 
 season = input("Type the season (format 'YYYY-YY', ex: '2024-25'): ")
 
-print(f"Statistics for {player_found['full_name']} (id: {player_found_id})\n")
+print(f"Statistics for {player_found['full_name']} ({season})\n")
 
 stats = playerdashboardbyshootingsplits.PlayerDashboardByShootingSplits(player_id=player_found_id, season=season, season_type_playoffs='Regular Season')
 
